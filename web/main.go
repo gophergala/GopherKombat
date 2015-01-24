@@ -1,12 +1,10 @@
 package main
 
 import (
+	"github.com/gophergala/GopherKombat/web/app"
 	"github.com/gophergala/GopherKombat/web/login"
+	"github.com/gorilla/context"
 	"net/http"
-)
-
-const (
-	FILE_SERVE_PATH = "/var/static"
 )
 
 func main() {
@@ -15,8 +13,13 @@ func main() {
 
 func StartWebServer() {
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(FILE_SERVE_PATH)))
-	mux.HandleFunc("/login/callback", login.LoginCallback)
+	mux.Handle("/", http.FileServer(http.Dir(app.FILE_SERVE_PATH)))
+	mux.HandleFunc("/login", login.LoginHandler)
+	mux.HandleFunc("/login/callback", login.LoginCallbackHandler)
+	mux.HandleFunc("/logout", login.LogoutHandler)
+	mux.HandleFunc("/blueprint", app.BlueprintHandler)
+	mux.HandleFunc("/kombat", app.KombatHandler)
+	mux.HandleFunc("/rankings", app.RankingsHandler)
 
-	panic(http.ListenAndServe(":8080", mux))
+	panic(http.ListenAndServe(":8080", context.ClearHandler(mux)))
 }

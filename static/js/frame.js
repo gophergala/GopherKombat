@@ -4,11 +4,11 @@
 /*global window*/
 
 GK.load = function(page) {
-     $("#content").load("template/" + page + ".html");
+     $("#content").load(page);
 };
 
 $(document).ready(function() {
-    GK.load("rankings");
+    GK.load("blueprint");
     $(".nav").click(function() {
         var page = $(this).attr("rel");
         GK.load(page);

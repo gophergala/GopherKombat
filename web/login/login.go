@@ -3,6 +3,7 @@ package login
 import (
 	"encoding/json"
 	"github.com/gophergala/GopherKombat/common/user"
+	"github.com/gophergala/GopherKombat/web/app"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -17,7 +18,16 @@ const (
 	GITHUB_API       = "https://api.github.com/user"
 )
 
-func LoginCallback(w http.ResponseWriter, r *http.Request) {
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	session := app.InitSession(r)
 	params := r.URL.Query()
 	code := params["code"][0]
 
@@ -49,8 +59,14 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error parsing response: $s", err)
 	}
-	log.Printf("GitHub data: %s", resp)
-	Login(FetchUser(data["access_token"].(string)))
+	user := FetchUser(data["access_token"].(string))
+
+	session.Values["user"] = user.Name
+	err = session.Save(r, w)
+	if err != nil {
+		println(err)
+	}
+	http.Redirect(w, r, "/", 301)
 }
 
 func FetchUser(accessToken string) *user.User {
@@ -70,8 +86,4 @@ func FetchUser(accessToken string) *user.User {
 	}
 	return user.ParseFromJson(content)
 
-}
-
-func Login(user *user.User) {
-	log.Printf("User logged in: %s", user.Name)
 }
