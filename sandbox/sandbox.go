@@ -57,6 +57,11 @@ func executeCombat(req *Request) (*Response, error) {
 		return nil, err
 	}
 	log.Printf("%#v", action)
+	action, err = cp.Turn(state)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("%#v", action)
 
 	return resp, nil
 }

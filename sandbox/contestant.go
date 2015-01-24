@@ -40,7 +40,9 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 
 	exe := filepath.Join(cp.dir, "a.out")
 	cmd := exec.Command("go", "build", "-o", exe, ai)
-	cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
+	// Not using NaCl for now because it is printing some bytes to the
+	// stdout
+	//cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
 	if out, err := cmd.CombinedOutput(); err != nil {
 		if _, ok := err.(*exec.ExitError); ok {
 			// Error compiling AI
@@ -50,7 +52,10 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 	}
 
 	// Prepare AI to receive requests
-	cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	// Not using NaCl for now because it is printing some bytes to the
+	// stdout
+	//cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	cp.cmd = exec.Command(exe)
 	cp.stdin, err = cp.cmd.StdinPipe()
 	if err != nil {
 		return nil, fmt.Errorf("error opening stdin: %v", err)
@@ -80,6 +85,9 @@ func (cp *ContestantProcess) Turn(state *game.State) (*game.Action, error) {
 			errc <- err
 			return
 		}
+
+		//buff := make([]byte, 12)
+		//cp.stdout.Read(buff)
 
 		// Read action from AI
 		var action game.Action
