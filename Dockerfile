@@ -3,7 +3,7 @@
 FROM golang
 
 # Copy the local package files to the container's workspace.
-ADD . /go/src/gophertest
+ADD . /go/src/github.com/gophergala/GopherKombat
 RUN mkdir -p /var/static
 ADD ./static /var/static
 
