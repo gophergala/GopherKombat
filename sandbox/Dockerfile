@@ -18,6 +18,7 @@ RUN cd /usr/local/bin && curl -s -O https://storage.googleapis.com/gobuilder/sel
 
 # add and compile sandbox daemon
 ADD . /go/src/sandbox/
+RUN cd /go/src/sandbox && go get
 RUN go install sandbox
 
 EXPOSE 8080

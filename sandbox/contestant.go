@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gophergala/GopherKombat/common/game"
 	"io"
 	"io/ioutil"
 	"os"
@@ -10,14 +11,6 @@ import (
 	"path/filepath"
 	"time"
 )
-
-type State struct {
-	Test string
-}
-
-type Action struct {
-	Test string
-}
 
 type ContestantProcess struct {
 	dir string
@@ -45,10 +38,11 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 		return nil, fmt.Errorf("error creating temp file %q: %v", ai, err)
 	}
 
-	// Compile AI
 	exe := filepath.Join(cp.dir, "a.out")
 	cmd := exec.Command("go", "build", "-o", exe, ai)
-	cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32"}
+	// Not using NaCl for now because it is printing some bytes to the
+	// stdout
+	//cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
 	if out, err := cmd.CombinedOutput(); err != nil {
 		if _, ok := err.(*exec.ExitError); ok {
 			// Error compiling AI
@@ -58,27 +52,30 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 	}
 
 	// Prepare AI to receive requests
-	cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
-	err = cp.cmd.Start()
-	if err != nil {
-		return nil, fmt.Errorf("error starting AI: %v", err)
-	}
+	// Not using NaCl for now because it is printing some bytes to the
+	// stdout
+	//cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	cp.cmd = exec.Command(exe)
 	cp.stdin, err = cp.cmd.StdinPipe()
 	if err != nil {
 		return nil, fmt.Errorf("error opening stdin: %v", err)
 	}
 	cp.stdout, err = cp.cmd.StdoutPipe()
 	if err != nil {
-		return nil, fmt.Errorf("error opening stdout: %v", err)
+		return nil, fmt.Errorf("error opening stderr: %v", err)
 	}
 	cp.encoder = json.NewEncoder(cp.stdin)
 	cp.decoder = json.NewDecoder(cp.stdout)
+	err = cp.cmd.Start()
+	if err != nil {
+		return nil, fmt.Errorf("error starting AI: %v", err)
+	}
 
 	return cp, nil
 }
 
-func (cp *ContestantProcess) Turn(state *State) (*Action, error) {
-	respc := make(chan *Action, 1)
+func (cp *ContestantProcess) Turn(state *game.State) (*game.Action, error) {
+	respc := make(chan *game.Action, 1)
 	errc := make(chan error, 1)
 
 	go func() {
@@ -86,15 +83,21 @@ func (cp *ContestantProcess) Turn(state *State) (*Action, error) {
 		err := cp.encoder.Encode(state)
 		if err != nil {
 			errc <- err
+			return
 		}
 
+		//buff := make([]byte, 12)
+		//cp.stdout.Read(buff)
+
 		// Read action from AI
-		var action Action
-		err = cp.decoder.Decode(action)
+		var action game.Action
+		err = cp.decoder.Decode(&action)
 		if err != nil {
 			errc <- err
+			return
 		}
 		respc <- &action
+		return
 	}()
 
 	t := time.NewTimer(time.Second)
