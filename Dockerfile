@@ -13,7 +13,7 @@ ADD ./static /var/static
 RUN go install github.com/gophergala/GopherKombat
 
 # Run the outyet command by default when the container starts.
-ENTRYPOINT /go/bin/GopherKombat
+ENTRYPOINT ["/go/bin/GopherKombat", "prod"]
 
 # Document that the service listens on port 8080.
 EXPOSE 8080
