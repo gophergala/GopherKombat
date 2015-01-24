@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/gophergala/GopherKombat/common/game"
 	"io"
 	"log"
 	"os"
@@ -9,16 +10,9 @@ import (
 
 const TEAM_SIZE = 5
 
-type State struct {
-	GopherId int
-	Test     string
-}
-
-type Action struct {
-	Test string
-}
-
 func main() {
+	log.SetOutput(os.Stderr)
+
 	gophers := make([]Gopher, TEAM_SIZE)
 
 	for i, gopher := range gophers {
@@ -28,7 +22,7 @@ func main() {
 
 	decoder := json.NewDecoder(os.Stdin)
 	encoder := json.NewEncoder(os.Stdout)
-	var state State
+	var state game.State
 
 	for {
 		// Read state from input

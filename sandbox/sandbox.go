@@ -3,18 +3,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gophergala/GopherKombat/common/game"
 	"log"
 	"net/http"
 )
 
 type Contestant struct {
-	Name string `json: "name"`
-	Code string `json: "code"`
+	Name string `json:"name"`
+	Code string `json:"code"`
 }
 
 type Request struct {
-	Contestant1 Contestant `json: "ai1"`
-	Contestant2 Contestant `json: "ai2"`
+	Contestant1 Contestant `json:"ai1"`
+	Contestant2 Contestant `json:"ai2"`
 }
 
 type Response struct {
@@ -27,6 +28,7 @@ func combatHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusBadRequest)
 		return
 	}
+	fmt.Printf("%#v\n", req)
 
 	resp, err := executeCombat(&req)
 	if err != nil {
@@ -49,8 +51,11 @@ func executeCombat(req *Request) (*Response, error) {
 	}
 	defer cp.Close()
 
-	state := &State{Test: "test state"}
+	state := &game.State{Test: "test state"}
 	action, err := cp.Turn(state)
+	if err != nil {
+		return nil, err
+	}
 	log.Printf("%#v", action)
 
 	return resp, nil
