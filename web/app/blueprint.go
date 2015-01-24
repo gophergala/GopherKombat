@@ -1,19 +1,16 @@
 package app
 
 import (
-	"io/ioutil"
-	"log"
 	"net/http"
 )
 
 func BlueprintHandler(w http.ResponseWriter, r *http.Request) {
-	_, ok := GetCurrentUser(r)
+	user, ok := GetCurrentUser(r)
+	data := make(map[string]interface{})
+	data["loggedIn"] = ok
 	if ok {
-		data, err := ioutil.ReadFile(FILE_SERVE_PATH + "/template/blueprint.html")
-		if err != nil {
-			log.Printf("Error reading template: %s ", err)
-		}
-		w.Write(data)
+		data["user"] = user
 	}
+	render(w, "blueprint", data)
 
 }

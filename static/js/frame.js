@@ -18,4 +18,7 @@ $(document).ready(function() {
             client_id = "fe6528d512e0697b7883";
         window.location.href = url + "?" + "client_id=" + client_id;
     });
+    $(".logout").click(function() {
+        window.location.href = "/logout";
+    });
 });

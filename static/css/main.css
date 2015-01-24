@@ -40,6 +40,14 @@ body a {
   font-weight: bold;
   cursor: pointer;
 }
+.header .profile img {
+  width: 25px;
+  height: 25px;
+  margin: -5px;
+}
+.header .profile .image {
+  margin: 0 5px;
+}
 .header .nav {
   padding: 10px 20px;
 }

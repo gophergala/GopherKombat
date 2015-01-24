@@ -1,5 +1,18 @@
-<div id="headline">Your blueprint</div>
-<p> Lorem ipsum... </p>
+{{ if .loggedIn }}
+    <div id="headline">{{ index .user.Name }}'s blueprint</div>
+    <script>
+            $(".header .login").hide();
+            $(".header .logout").show();
+            
+    </script>
+{{else}}
+    <div id="headline">This could be your blueprint</div>
+    <p> All you have to do is log in with GitHub... </p>
+    <script>
+            $(".header .login").show();
+            $(".header .logout").hide();
+    </script>
+{{ end }}
 <div class="editor-wrapper">
     <div id="editor">// pi launches n goroutines to compute an
 // approximation of pi.

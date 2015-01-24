@@ -5,11 +5,27 @@
         <div class="title head">Today</div>
         <div class="name head cell">Username</div>
         <div class="value head cell">Win %</div>
+        {{range $rec := today}}
+            <div class="trow">
+                <div class="name cell">
+                    <a href="{{ $rec.User.Repo }}">{{ $rec.User.Name }}</a>
+                </div>
+                <div class="value cell">{{ $rec.Value }}</div>
+            </div>
+        {{ end }}
     </div>
     <div class="column">
         <div class="title head">This month</div>
         <div class="name head cell">Username</div>
         <div class="value head cell">Win %</div>
+        {{range $rec := month}}
+            <div class="trow">
+                <div class="name cell">
+                    <a href="{{ $rec.User.Repo }}">{{ $rec.User.Name }}</a>
+                </div>
+                <div class="value cell">{{ $rec.Value }}</div>
+            </div>
+        {{ end }}
     </div>
     <div class="column">
         <div class="title head">All time</div>
@@ -17,12 +33,14 @@
             <div class="name head cell">Username</div>
             <div class="value head cell">Win %</div>
         </div>
-        <div class="trow">
-            <div class="name cell">
-                <a href="http://github.com/kortem">github.com/kortem</a>
+        {{range $rec := allTime}}
+            <div class="trow">
+                <div class="name cell">
+                    <a href="{{ $rec.User.Repo }}">{{ $rec.User.Name }}</a>
+                </div>
+                <div class="value cell">{{ $rec.Value }}</div>
             </div>
-            <div class="value cell">43%</div>
-        </div>
+        {{ end }}
     </div>
 </div>
 

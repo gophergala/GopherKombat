@@ -14,16 +14,18 @@ import (
 const (
 	ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token"
 	CLIENT_ID        = "fe6528d512e0697b7883"
-	CLIENT_SECRET    = "cec5d9ce37eb963149e5ef9cdb8f445f0d891227"
+	CLIENT_SECRET    = "cec5d9ce37eb963149e5ef9cdb8f445f0d891227" //add to os.Env
 	GITHUB_API       = "https://api.github.com/user"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
-
-}
-
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-
+	session := app.InitSession(r)
+	session.Values["user"] = nil
+	err := session.Save(r, w)
+	if err != nil {
+		log.Println(err)
+	}
+	http.Redirect(w, r, "/", 301)
 }
 
 func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -61,10 +63,10 @@ func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	user := FetchUser(data["access_token"].(string))
 
-	session.Values["user"] = user.Name
+	session.Values["user"] = user
 	err = session.Save(r, w)
 	if err != nil {
-		println(err)
+		log.Println(err)
 	}
 	http.Redirect(w, r, "/", 301)
 }
