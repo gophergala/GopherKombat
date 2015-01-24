@@ -51,7 +51,7 @@ func executeCombat(req *Request) (*Response, error) {
 	}
 	defer cp.Close()
 
-	state := &game.State{Test: "test state"}
+	state := &game.State{Health: 10}
 	action, err := cp.Turn(state)
 	if err != nil {
 		return nil, err
