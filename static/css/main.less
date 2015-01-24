@@ -1,0 +1,120 @@
+@f-normal: 14px;
+@f-heading: 20px;
+
+@c-black: #272727;
+@c-gray: #2D2D2D;
+@c-lgray: #464444;
+@c-white: #CCCCCC;
+@c-orange: #F99157;
+@c-purple: #CC99CC;
+@c-blue: #6699CC;
+@c-yellow: #FFCC66;
+
+body {
+    font-size: @f-normal;
+    color: @c-white;
+    font-family: Verdana, Arial, serif;
+    background-color: @c-black;
+    a {
+        color: @c-yellow;
+        text-decoration: none;
+    }
+}
+
+.outer-wrapper {
+    width: inherit;
+    .inner-wrapper {
+        width: 960px;
+        margin: auto;
+        left: 0;
+        right: 0;
+    }
+}
+
+.header {
+    margin-top: 15px;
+    border-bottom: 1px solid @c-lgray;
+    div {
+        float: left;
+    }
+    .logo {
+        padding: 10px 20px;
+        font-weight: bold;
+        background-color: @c-gray;
+        color: @c-yellow;
+        cursor: pointer;
+    }
+    .logo:hover {}
+    .profile {
+        padding: 10px 20px;
+        float: right;
+        background-color: @c-gray;
+        color: @c-white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .nav {
+        padding: 10px 20px;
+    }
+    .nav:hover {
+        background-color: @c-gray;
+        color: @c-yellow;
+        cursor: pointer;
+    }
+}
+
+#content {
+    padding: 10px;
+    #headline {
+        font-weight: bold;
+        padding: 20px 0 10px 0;
+        font-size: @f-heading;
+    }
+    .editor-wrapper {
+        margin-top: 10px;
+        height : 600px;
+        #editor {
+            width: 100%;
+            height: 100%;
+            float: left;
+            border: 1px solid @c-lgray;
+        }
+        #apidoc {
+            display: none;
+            width: 40%;
+            height: 100%;
+            float: right;
+        }
+    }
+    .rankings-wrapper {
+        margin-top: 10px;
+        .column {
+            display: table-column;
+            width: 300px;
+            display: inline-block;
+            margin-right: 10px;
+            .title {
+                margin: 10px 5px;
+            }
+            .cell {
+                display: table-cell;
+                border: 1px solid @c-lgray; 
+                padding: 2px 5px;
+            }
+            .thead {
+                display: table-header-group;
+            }
+            .head {
+                font-weight: bold;
+            }
+            .name {
+                width: 230px;
+            }
+            .value {
+                width: 70px;
+                display: ta
+            }
+        }
+    }
+    
+}
