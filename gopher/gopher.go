@@ -5,8 +5,13 @@ import (
 	"log"
 )
 
+type UserData struct {
+}
+
 type Gopher struct {
 	Id int
+	// Custom user data
+	Data UserData
 }
 
 func (gopher *Gopher) Init() {
