@@ -56,7 +56,14 @@ func executeCombat(req *Request) (*Response, error) {
 	return resp, nil
 }
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("root")
+	fmt.Fprintf(w, "running")
+}
+
 func main() {
+	log.Printf("Running")
 	http.HandleFunc("/combat", combatHandler)
+	http.HandleFunc("/", rootHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
