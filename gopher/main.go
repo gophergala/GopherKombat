@@ -33,7 +33,8 @@ func main() {
 		}
 
 		// Process turn
-		action := gophers[state.GopherId].Turn(&state)
+		gophers[state.GopherId].Update(&state)
+		action := gophers[state.GopherId].Turn()
 
 		// Write action to stdout
 		if err := encoder.Encode(action); err != nil {
