@@ -2,12 +2,21 @@ package main
 
 import (
 	"log"
-	"time"
 )
+
+const (
+	MAP_WIDTH  = 20
+	MAP_HEIGHT = 20
+)
+
+type Tile struct {
+}
 
 type Engine struct {
 	ai1 *ContestantProcess
 	ai2 *ContestantProcess
+
+	board [][]Tile
 }
 
 func NewEngine(request *Request) (*Engine, error, error) {
@@ -19,14 +28,27 @@ func NewEngine(request *Request) (*Engine, error, error) {
 		return nil, ai1Err, ai2Err
 	}
 
+	// initialize board
+	engine.board = make([][]Tile, MAP_HEIGHT)
+	for i := 0; i < MAP_HEIGHT; i++ {
+		engine.board[i] = make([]Tile, MAP_WIDTH)
+	}
+
 	return engine, nil, nil
 }
 
-func (eng *Engine) Run() (time.Duration, time.Duration, error, error) {
-	log.Printf("running time comparison")
-	time1, err1 := eng.ai1.Run()
-	time2, err2 := eng.ai2.Run()
-	return time1, time2, err1, err2
+func (eng *Engine) Run() error {
+	log.Printf("running combat")
+	_, err := eng.ai1.Run()
+	if err != nil {
+		return err
+	}
+	_, err = eng.ai2.Run()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (eng *Engine) Close() {
