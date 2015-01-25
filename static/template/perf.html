@@ -8,16 +8,41 @@
             $(".header .logout").show();
     </script>
 {{else}}
-    <p class="message"><a class="login">Login</a> with your GitHub and Kombat away!</p>
+    <p class="message"><span class="login">Login</span> with your GitHub and Kombat away!</p>
     <script>
             $(".header .login").show();
             $(".header .logout").hide();
     </script>
 {{ end }}
-
+<p class="message">Here is an example for you:</p>
 <div class="editor-wrapper">
-    <div id="editor1" class="editor"></div>    
-    <div id="editor2" class="editor"></div>
+    <div id="editor1" class="editor">package main
+
+import (
+    "bytes"
+    "fmt"
+)
+
+func main() {
+    var buffer bytes.Buffer
+    for i := 0; i < 100; i++ {
+        buffer.WriteString("a")
+    }
+	fmt.Println(buffer.String())
+}</div>    
+    <div id="editor2" class="editor">package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    var s string
+    for i := 0; i < 100; i++ {
+        s += "a"
+    }
+    fmt.Println(s)
+}</div>
     <div class="vs">vs</div>
     <div id="validation1" class="validation ace_editor" style="display:none;"></div>
     <div id="validation2" class="validation ace_editor" style="display:none;"></div>

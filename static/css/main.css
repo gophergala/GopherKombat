@@ -5,7 +5,8 @@ body {
   font-family: Verdana, Arial, serif;
   background-color: #272727;
 }
-body a {
+body a,
+body .login {
   color: #ffcc66;
   text-decoration: none;
   cursor: pointer;

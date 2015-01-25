@@ -33,14 +33,14 @@ $(document).ready(function() {
                         $("#validation2").show();
                     } else {
                         sweetAlert("Oops...", "Make sure your package is `main`!", "error");
-                    }                    
+                    }
                 }                
             } else {
                 $(".submitCode").hide();
                 $('.results').show();
                 console.log(resp.resp);
-                $("#res1 .time").html(compareTime(resp.resp.t1, resp.resp.t2));
-                $("#res2 .time").html(compareTime(resp.resp.t2, resp.resp.t1));
+                $("#res1 .time").html(formatTime(resp.resp.t1));
+                $("#res2 .time").html(formatTime(resp.resp.t2));
                 $("#res1 .memory").html(formatMem(resp.resp.m1));
                 $("#res2 .memory").html(formatMem(resp.resp.m2));
                 $("#res1 .lines").html(editor1.session.getLength());
@@ -52,6 +52,11 @@ $(document).ready(function() {
         $('.results').hide();
         $(".submitCode").show();
     });
+    $(".login").click(function() {
+        var url = "https://github.com/login/oauth/authorize",
+            client_id = "fe6528d512e0697b7883";
+        window.location.href = url + "?" + "client_id=" + client_id;
+    });
 });
 
 function compareTime(v1, v2) {
@@ -59,6 +64,14 @@ function compareTime(v1, v2) {
         sufix = v1>v2 ? "% slower" : "% faster";
     return Math.abs(ratio.toFixed(2)) + sufix;
 }
+
+function formatTime(v1) {
+    var milli = Math.floor(v1/1000);
+    var milliseconds = milli % 1000;
+    var seconds = Math.floor((milli / 1000) % 60);
+    return seconds + "." + milliseconds + " secs";
+}
+
 function formatMem(v1) {
     var val = v1/1000,
         sufix = " kbytes";
