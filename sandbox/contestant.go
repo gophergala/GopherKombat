@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -15,12 +13,6 @@ import (
 type ContestantProcess struct {
 	dir string
 	cmd *exec.Cmd
-
-	stdin  io.WriteCloser
-	stdout io.ReadCloser
-
-	encoder *json.Encoder
-	decoder *json.Decoder
 }
 
 func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
@@ -40,9 +32,7 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 
 	exe := filepath.Join(cp.dir, "a.out")
 	cmd := exec.Command("go", "build", "-o", exe, ai)
-	// Not using NaCl for now because it is printing some bytes to the
-	// stdout
-	//cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
+	cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
 	if out, err := cmd.CombinedOutput(); err != nil {
 		if _, ok := err.(*exec.ExitError); ok {
 			// Error compiling AI
@@ -56,11 +46,8 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 
 func (cp *ContestantProcess) Run() (time.Duration, error) {
 	// Prepare AI to receive requests
-	// Not using NaCl for now because it is printing some bytes to the
-	// stdout
-	//cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
 	exe := filepath.Join(cp.dir, "a.out")
-	cp.cmd = exec.Command(exe)
+	cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
 
 	start := time.Now()
 	err := cp.cmd.Start()
