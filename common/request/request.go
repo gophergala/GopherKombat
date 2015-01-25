@@ -15,8 +15,10 @@ type Request struct {
 }
 
 type Response struct {
-	Time1  time.Duration `json:"t1"`
-	Time2  time.Duration `json:"t2"`
-	Error1 string        `json:"err1"`
-	Error2 string        `json:"err2"`
+	Time1      time.Duration `json:"t1"`
+	Time2      time.Duration `json:"t2"`
+	ByteUsage1 int64         `json:"m1"`
+	ByteUsage2 int64         `json:"m2"`
+	Error1     string        `json:"err1"`
+	Error2     string        `json:"err2"`
 }

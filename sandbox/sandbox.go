@@ -36,9 +36,11 @@ func executeCombat(req *request.Request) *request.Response {
 	}
 	defer engine.Close()
 
-	time1, time2, err1, err2 := engine.Run()
-	resp.Time1 = time1
-	resp.Time2 = time2
+	res1, res2, err1, err2 := engine.Run()
+	resp.Time1 = res1.ExecutionTime
+	resp.Time2 = res2.ExecutionTime
+	resp.ByteUsage1 = res1.ByteUsage
+	resp.ByteUsage2 = res2.ByteUsage
 	resp.Error1 = fmt.Sprintf("%v", err1)
 	resp.Error2 = fmt.Sprintf("%v", err2)
 

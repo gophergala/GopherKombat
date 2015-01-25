@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gophergala/GopherKombat/common/request"
 	"log"
-	"time"
 )
 
 type Engine struct {
@@ -23,11 +22,11 @@ func NewEngine(request *request.Request) (*Engine, error, error) {
 	return engine, nil, nil
 }
 
-func (eng *Engine) Run() (time.Duration, time.Duration, error, error) {
+func (eng *Engine) Run() (*ProcessResult, *ProcessResult, error, error) {
 	log.Printf("running time comparison")
-	time1, err1 := eng.ai1.Run()
-	time2, err2 := eng.ai2.Run()
-	return time1, time2, err1, err2
+	res1, err1 := eng.ai1.Run()
+	res2, err2 := eng.ai2.Run()
+	return res1, res2, err1, err2
 }
 
 func (eng *Engine) Close() {

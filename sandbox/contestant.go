@@ -8,8 +8,14 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"syscall"
 	"time"
 )
+
+type ProcessResult struct {
+	ExecutionTime time.Duration
+	ByteUsage     int64
+}
 
 type ContestantProcess struct {
 	dir string
@@ -45,7 +51,7 @@ func NewContestantProcess(contestant *request.Contestant) (*ContestantProcess, e
 	return cp, nil
 }
 
-func (cp *ContestantProcess) Run() (time.Duration, error) {
+func (cp *ContestantProcess) Run() (*ProcessResult, error) {
 	// Prepare AI to receive requests
 	exe := filepath.Join(cp.dir, "a.out")
 	cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
@@ -53,10 +59,10 @@ func (cp *ContestantProcess) Run() (time.Duration, error) {
 	start := time.Now()
 	err := cp.cmd.Start()
 	if err != nil {
-		return 0, fmt.Errorf("error starting AI: %v", err)
+		return nil, fmt.Errorf("error starting AI: %v", err)
 	}
 
-	resc := make(chan time.Duration, 1)
+	resc := make(chan *ProcessResult, 1)
 	errc := make(chan error, 1)
 
 	go func() {
@@ -66,7 +72,11 @@ func (cp *ContestantProcess) Run() (time.Duration, error) {
 			return
 		}
 		diff := time.Now().Sub(start)
-		resc <- diff
+		res := &ProcessResult{
+			ExecutionTime: diff,
+			ByteUsage:     cp.cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss,
+		}
+		resc <- res
 		return
 	}()
 
@@ -75,14 +85,14 @@ func (cp *ContestantProcess) Run() (time.Duration, error) {
 	select {
 	case err := <-errc:
 		t.Stop()
-		return 0, err
+		return nil, err
 	case res := <-resc:
 		t.Stop()
 		log.Printf("executed piece in %v", res)
 		return res, nil
 	case <-t.C:
 		cp.cmd.Process.Kill()
-		return 0, fmt.Errorf("timeout")
+		return nil, fmt.Errorf("timeout")
 	}
 }
 
