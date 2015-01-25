@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"github.com/gophergala/GopherKombat/common/user"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -77,9 +76,11 @@ func validate(user *user.User, code string) (bool, string) {
 	if err != nil {
 		//panic(err)
 	}
-	log.Printf("Output: %s", out)
-
-	return true, string(out)
+	message := string(out)
+	if message == "" {
+		message = "All good! Your blueprint is ready to be tested in GopherKombat."
+	}
+	return true, message
 }
 
 func save(user *user.User, code string) error {
