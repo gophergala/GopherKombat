@@ -8,6 +8,7 @@ body {
 body a {
   color: #ffcc66;
   text-decoration: none;
+  cursor: pointer;
 }
 .outer-wrapper {
   width: inherit;
@@ -126,6 +127,7 @@ body a {
   z-index: 100;
   padding: 10px 20px;
   border: 1px solid #464444;
+  transition: all 0.5s ease;
 }
 #content .editor-wrapper .validation#validation1 {
   left: 0;
@@ -148,6 +150,7 @@ body a {
   border: 1px solid #464444;
   background: #272727;
   z-index: 110;
+  transition: all 0.5s ease;
 }
 #content .editor-wrapper .results .results-title {
   margin: 10px;

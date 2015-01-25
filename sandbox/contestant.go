@@ -39,7 +39,7 @@ func NewContestantProcess(contestant *request.Contestant) (*ContestantProcess, e
 
 	exe := filepath.Join(cp.dir, "a.out")
 	cmd := exec.Command("go", "build", "-o", exe, ai)
-	cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
+	//cmd.Env = []string{"GOOS=nacl", "GOARCH=amd64p32", "GOPATH=/go"}
 	if out, err := cmd.CombinedOutput(); err != nil {
 		if _, ok := err.(*exec.ExitError); ok {
 			// Error compiling AI
@@ -54,7 +54,8 @@ func NewContestantProcess(contestant *request.Contestant) (*ContestantProcess, e
 func (cp *ContestantProcess) Run() (*ProcessResult, error) {
 	// Prepare AI to receive requests
 	exe := filepath.Join(cp.dir, "a.out")
-	cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	//cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	cp.cmd = exec.Command(exe)
 
 	start := time.Now()
 	err := cp.cmd.Start()

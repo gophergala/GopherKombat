@@ -23,10 +23,14 @@ $(document).ready(function() {
         GK.requestAgent().doPOST(url, data, function(resp) {
             console.log(resp);
             if (!resp.success) {
-                $("#validation1").html(resp.resp.err1);
-                $("#validation2").html(resp.resp.err2);
-                $("#validation1").show();
-                $("#validation2").show();
+                if (resp.message) {
+                    sweetAlert("Oops...", "You have to log in first!", "error");
+                } else {
+                    $("#validation1").html(resp.resp.err1);
+                    $("#validation2").html(resp.resp.err2);
+                    $("#validation1").show();
+                    $("#validation2").show();
+                }                
             } else {
                 $(".submitCode").hide();
                 $('.results').show();

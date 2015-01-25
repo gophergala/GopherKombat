@@ -1,17 +1,20 @@
+<div id="headline" class="title">A place for all your Gopher kombating needs</div>
+<p class="message">It's very simple - code (or paste, whatever) two #Golang snippets 
+    and compare their performance head to head.</p>
+
 {{ if .loggedIn }}
     <script>
             $(".header .login").hide();
             $(".header .logout").show();
     </script>
 {{else}}
+    <p class="message"><a class="login">Login</a> with your GitHub and Kombat away!</p>
     <script>
             $(".header .login").show();
             $(".header .logout").hide();
     </script>
 {{ end }}
-<div id="headline" class="title">A place for all your Gopher kombating needs</div>
-<p class="message">It's very simple - code (or paste, whatever) two #Golang snippets 
-    and compare their performance head to head.</p>
+
 <div class="editor-wrapper">
     <div id="editor1" class="editor"></div>    
     <div id="editor2" class="editor"></div>

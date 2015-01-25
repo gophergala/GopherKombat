@@ -21,9 +21,9 @@ func PerfSubmitHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		_, ok := GetCurrentUser(r)
 		data := make(map[string]interface{})
+		data["success"] = ok
 		if ok {
 			r.ParseForm()
-			data["success"] = ok
 			code1 := r.PostFormValue("code1")
 			code2 := r.PostFormValue("code2")
 			res, err := client.CompareExecution(code1, code2)
