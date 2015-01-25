@@ -32,7 +32,7 @@ GK.requestAgent = function() {
 };
 
 $(document).ready(function() {
-    GK.load("blueprint");
+    GK.load("perf");
     $(".nav").click(function() {
         var page = $(this).attr("rel");
         GK.load(page);

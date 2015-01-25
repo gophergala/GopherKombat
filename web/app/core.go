@@ -50,14 +50,3 @@ func renderJson(w http.ResponseWriter, r *http.Request, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(json)
 }
-
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	user, ok := GetCurrentUser(r)
-	data := make(map[string]interface{})
-	data["loggedIn"] = ok
-	if ok {
-		data["user"] = user
-	}
-	render(w, "home", data)
-
-}

@@ -24,7 +24,7 @@ body {
 .outer-wrapper {
     width: inherit;
     .inner-wrapper {
-        width: 960px;
+        width: 1280px;
         margin: auto;
         left: 0;
         right: 0;
@@ -82,76 +82,69 @@ body {
         margin: 10px 0;
         height : 500px;
         position: relative;
-        #editor {
-            width: 100%;
-            height: 100%;
-            float: left;
+        .editor {
+            position: absolute;
+            width: 620px;
+            height: 100%;            
             border: 1px solid @c-lgray;
+            &#editor1 {
+                left: 0;
+            }
+            &#editor2 {
+                right: 0;
+            }
         }
-        #apidoc {
-            display: none;
-            width: 40%;
-            height: 100%;
-            float: right;
+        .vs {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 50px;
+            height:50px;
+            font-size: 50px;
+            z-index: 102;
         }
         .submitCode {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: -70px;
+            right: 0;
+            left: 0;
+            width: 200px;
+            font-size: 26px;
+            margin: auto;
             -webkit-border-radius: 5;
             -moz-border-radius: 5;
             border-radius: 5px;
             color: @c-yellow;
             background: @c-black;
-            border: 1px solid @c-black;
+            border: 1px solid @c-lgray;
             padding: 5px 10px;
             z-index: 101;
+            text-align: center;
             &:hover{
                 cursor: pointer;
                 border: 1px solid @c-yellow;
             }
         }
         .validation {
+            width: 580px;
             position: absolute;
-            bottom: -5px;
-            left: 50px;
-            right: -5px;
+            bottom: 0;
             background: @c-black;
             opacity: 0.9;
             z-index: 100;
-            padding: 10px 200px 10px 10px;
+            padding: 10px 20px;
+            border: 1px solid @c-lgray;
+            &#validation1 {
+                left: 0;
+            }
+            &#validation2 {
+                right: 0;
+            }
         }
         
-    }
-    .rankings-wrapper {
-        margin-top: 10px;
-        .column {
-            display: table-column;
-            width: 300px;
-            display: inline-block;
-            margin-right: 10px;
-            .title {
-                margin: 10px 5px;
-            }
-            .cell {
-                display: table-cell;
-                border: 1px solid @c-lgray; 
-                padding: 2px 5px;
-            }
-            .thead {
-                display: table-header-group;
-            }
-            .head {
-                font-weight: bold;
-            }
-            .name {
-                width: 230px;
-            }
-            .value {
-                width: 70px;
-                display: ta
-            }
-        }
     }
     
 }
