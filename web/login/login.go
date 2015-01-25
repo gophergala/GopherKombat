@@ -62,7 +62,7 @@ func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error parsing response: $s", err)
 	}
 	user := FetchUser(data["access_token"].(string))
-
+	user.Save()
 	session.Values["user"] = user
 	err = session.Save(r, w)
 	if err != nil {
@@ -87,5 +87,9 @@ func FetchUser(accessToken string) *user.User {
 		log.Printf("Error reading response: $s", err)
 	}
 	return user.ParseFromJson(content)
+
+}
+
+func register() {
 
 }

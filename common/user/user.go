@@ -2,13 +2,18 @@ package user
 
 import (
 	"encoding/json"
+	"github.com/gophergala/GopherKombat/common/dba"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"log"
 )
 
 type User struct {
-	Name  string
-	Repo  string
-	Image string
+	Name    string
+	Repo    string
+	Image   string
+	Wins    int
+	Matches int
 }
 
 func ParseFromJson(content []byte) *User {
@@ -18,9 +23,35 @@ func ParseFromJson(content []byte) *User {
 	if err != nil {
 		log.Printf("Error parsing response: $s", err)
 	}
-	return &User{
-		Name:  data["login"].(string),
-		Repo:  data["html_url"].(string),
-		Image: data["avatar_url"].(string),
+	user, found := Find(data["login"].(string))
+	if found {
+		return user
+	} else {
+		return &User{
+			Name:  data["login"].(string),
+			Repo:  data["html_url"].(string),
+			Image: data["avatar_url"].(string),
+		}
 	}
+}
+
+func (u *User) Save() {
+	dba.Execute("users", func(col *mgo.Collection) {
+		err := col.Insert(u)
+		if err != nil {
+			panic(err)
+		}
+	})
+}
+
+func Find(name string) (*User, bool) {
+	user := &User{}
+	found := true
+	dba.Execute("users", func(col *mgo.Collection) {
+		err := col.Find(bson.M{"name": name}).One(user)
+		if err != nil {
+			found = false
+		}
+	})
+	return user, found
 }
