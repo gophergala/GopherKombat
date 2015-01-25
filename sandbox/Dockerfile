@@ -18,8 +18,10 @@ RUN cd /usr/local/bin && curl -s -O https://storage.googleapis.com/gobuilder/sel
 
 # add and compile sandbox daemon
 ADD . /go/src/sandbox/
-RUN cd /go/src/sandbox && go get
-RUN go install sandbox
+RUN mkdir -p /go/src/github.com/gophergala
+RUN cd /go/src/github.com/gophergala && git clone https://github.com/gophergala/GopherKombat.git
+RUN cd /go/src/github.com/gophergala/GopherKombat && git checkout perf
+RUN cd /go/src/sandbox && go get && go build
 
 EXPOSE 1212
 ENTRYPOINT ["/go/bin/sandbox"]
