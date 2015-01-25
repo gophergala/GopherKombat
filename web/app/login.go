@@ -88,7 +88,3 @@ func FetchUser(accessToken string) *user.User {
 	return user.ParseFromJson(content)
 
 }
-
-func register() {
-
-}

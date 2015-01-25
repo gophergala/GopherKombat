@@ -1,6 +1,7 @@
 package app
 
 import (
+	"encoding/json"
 	"github.com/gophergala/GopherKombat/common/user"
 	"github.com/gorilla/sessions"
 	"html/template"
@@ -38,6 +39,16 @@ func render(w io.Writer, name string, data interface{}) {
 		log.Println(err)
 	}
 	t.Execute(w, data)
+}
+
+func renderJson(w http.ResponseWriter, r *http.Request, data interface{}) {
+	json, err := json.Marshal(data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(json)
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {

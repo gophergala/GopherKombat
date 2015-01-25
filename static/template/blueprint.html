@@ -1,5 +1,6 @@
 {{ if .loggedIn }}
     <div id="headline">{{ index .user.Name }}'s blueprint</div>
+    <p class="message"></p>
     <script>
             $(".header .login").hide();
             $(".header .logout").show();
@@ -14,22 +15,13 @@
     </script>
 {{ end }}
 <div class="editor-wrapper">
-    <div id="editor">// pi launches n goroutines to compute an
-// approximation of pi.
-func pi(n int) float64 {
-    ch := make(chan float64)
-    for k := 0; k <= n; k++ {
-        go term(ch, float64(k))
-    }
-    f := 0.0.0
-    for k := 0; k <= n; k++ {
-        f += <-ch
-    }
-    return f
-}</div>
+    <div id="editor"></div>
     <div id="apidoc">
 
     </div>
+        <div class="validation ace_editor" style="display: none;"></div>
+        <div class="submitCode">Submit blueprint</div>
 </div>
+
 
 <script type="application/javascript" src="js/blueprint.js" defer></script>

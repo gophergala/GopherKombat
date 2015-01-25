@@ -18,6 +18,8 @@ func StartWebServer() {
 	mux.HandleFunc("/login/callback", app.LoginCallbackHandler)
 	mux.HandleFunc("/logout", app.LogoutHandler)
 	mux.HandleFunc("/blueprint", app.BlueprintHandler)
+	mux.HandleFunc("/blueprint/submit", app.BlueprintSubmitHandler)
+	mux.HandleFunc("/blueprint/get", app.BlueprintGetHandler)
 	mux.HandleFunc("/kombat", app.KombatHandler)
 	mux.HandleFunc("/rankings", app.RankingsHandler)
 	mux.HandleFunc("/home", app.HomeHandler)
