@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gophergala/GopherKombat/common/request"
 	"io/ioutil"
 	"log"
 	"os"
@@ -15,7 +16,7 @@ type ContestantProcess struct {
 	cmd *exec.Cmd
 }
 
-func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
+func NewContestantProcess(contestant *request.Contestant) (*ContestantProcess, error) {
 	var err error
 	cp := &ContestantProcess{}
 

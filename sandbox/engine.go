@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gophergala/GopherKombat/common/request"
 	"log"
 	"time"
 )
@@ -10,7 +11,7 @@ type Engine struct {
 	ai2 *ContestantProcess
 }
 
-func NewEngine(request *Request) (*Engine, error, error) {
+func NewEngine(request *request.Request) (*Engine, error, error) {
 	var ai1Err, ai2Err error
 	engine := &Engine{}
 	engine.ai1, ai1Err = NewContestantProcess(&request.Contestant1)

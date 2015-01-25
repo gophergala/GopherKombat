@@ -21,5 +21,5 @@ ADD . /go/src/sandbox/
 RUN cd /go/src/sandbox && go get
 RUN go install sandbox
 
-EXPOSE 8080
+EXPOSE 1212
 ENTRYPOINT ["/go/bin/sandbox"]
