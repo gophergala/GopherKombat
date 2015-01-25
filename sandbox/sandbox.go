@@ -30,8 +30,12 @@ func executeCombat(req *request.Request) *request.Response {
 
 	engine, ai1Err, ai2Err := NewEngine(req)
 	if ai1Err != nil || ai2Err != nil {
-		resp.Error1 = fmt.Sprintf("%v", ai1Err)
-		resp.Error2 = fmt.Sprintf("%v", ai2Err)
+		if ai1Err != nil {
+			resp.Error1 = fmt.Sprintf("%v", ai1Err)
+		}
+		if ai2Err != nil {
+			resp.Error2 = fmt.Sprintf("%v", ai2Err)
+		}
 		return resp
 	}
 	defer engine.Close()
@@ -41,8 +45,12 @@ func executeCombat(req *request.Request) *request.Response {
 	resp.Time2 = res2.ExecutionTime
 	resp.ByteUsage1 = res1.ByteUsage
 	resp.ByteUsage2 = res2.ByteUsage
-	resp.Error1 = fmt.Sprintf("%v", err1)
-	resp.Error2 = fmt.Sprintf("%v", err2)
+	if err1 != nil {
+		resp.Error1 = fmt.Sprintf("%v", err1)
+	}
+	if err2 != nil {
+		resp.Error2 = fmt.Sprintf("%v", err2)
+	}
 
 	return resp
 }
