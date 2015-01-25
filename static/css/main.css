@@ -43,6 +43,9 @@ body .login {
   color: #ffcc66;
   cursor: pointer;
 }
+.header .login {
+  color: #cccccc;
+}
 .header .profile {
   padding: 10px 20px;
   float: right;
