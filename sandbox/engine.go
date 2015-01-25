@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gophergala/GopherKombat/common/game"
 	"log"
 )
 
@@ -39,17 +38,15 @@ func NewEngine(request *Request) (*Engine, error, error) {
 }
 
 func (eng *Engine) Run() error {
-	state := &game.State{Health: 10}
-	action, err := eng.ai1.Turn(state)
+	log.Printf("running combat")
+	_, err := eng.ai1.Run()
 	if err != nil {
 		return err
 	}
-	log.Printf("%#v", action)
-	action, err = eng.ai1.Turn(state)
+	_, err = eng.ai2.Run()
 	if err != nil {
 		return err
 	}
-	log.Printf("%#v", action)
 
 	return nil
 }
