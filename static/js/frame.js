@@ -8,7 +8,7 @@ GK.load = function(page) {
 };
 
 $(document).ready(function() {
-    GK.load("blueprint");
+    GK.load("home");
     $(".nav").click(function() {
         var page = $(this).attr("rel");
         GK.load(page);

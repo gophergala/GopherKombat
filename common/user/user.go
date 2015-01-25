@@ -55,3 +55,11 @@ func Find(name string) (*User, bool) {
 	})
 	return user, found
 }
+
+func GetAll() []*User {
+	var results []*User
+	dba.Execute("users", func(col *mgo.Collection) {
+		col.Find(nil).All(&results)
+	})
+	return results
+}

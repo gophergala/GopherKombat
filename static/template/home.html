@@ -1,3 +1,15 @@
+{{ if .loggedIn }}
+<script>
+            $(".header .login").hide();
+            $(".header .logout").show();
+
+    </script>
+{{else}}
+<script>
+            $(".header .login").show();
+            $(".header .logout").hide();
+    </script>
+{{ end }}
 <div>
     Welcome to blablabla
     

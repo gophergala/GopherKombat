@@ -20,6 +20,7 @@ func StartWebServer() {
 	mux.HandleFunc("/blueprint", app.BlueprintHandler)
 	mux.HandleFunc("/kombat", app.KombatHandler)
 	mux.HandleFunc("/rankings", app.RankingsHandler)
+	mux.HandleFunc("/home", app.HomeHandler)
 	gob.Register(&user.User{})
 	panic(http.ListenAndServe(":8080", context.ClearHandler(mux)))
 }
