@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gophergala/GopherKombat/common/game"
 	"log"
 	"net/http"
 )
@@ -45,23 +44,16 @@ func combatHandler(w http.ResponseWriter, r *http.Request) {
 func executeCombat(req *Request) (*Response, error) {
 	resp := &Response{}
 
-	cp, err := NewContestantProcess(&req.Contestant1)
-	if err != nil {
-		return nil, err
+	engine, ai1Err, ai2Err := NewEngine(req)
+	if ai1Err != nil {
+		return nil, ai1Err
 	}
-	defer cp.Close()
+	if ai2Err != nil {
+		return nil, ai2Err
+	}
+	defer engine.Close()
 
-	state := &game.State{Health: 10}
-	action, err := cp.Turn(state)
-	if err != nil {
-		return nil, err
-	}
-	log.Printf("%#v", action)
-	action, err = cp.Turn(state)
-	if err != nil {
-		return nil, err
-	}
-	log.Printf("%#v", action)
+	engine.Run()
 
 	return resp, nil
 }
