@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const EXECUTION_SERVER = "http://localhost:1212/combat"
+const EXECUTION_SERVER = "http://sandbox:1212/combat"
 
 func CompareExecution(code1 string, code2 string) (*request.Response, error) {
 	req := &request.Request{}
