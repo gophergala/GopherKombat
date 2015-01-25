@@ -26,10 +26,14 @@ $(document).ready(function() {
                 if (resp.message) {
                     sweetAlert("Oops...", "You have to log in first!", "error");
                 } else {
-                    $("#validation1").html(resp.resp.err1);
-                    $("#validation2").html(resp.resp.err2);
-                    $("#validation1").show();
-                    $("#validation2").show();
+                    if (resp.resp) {
+                        $("#validation1").html(resp.resp.err1);
+                        $("#validation2").html(resp.resp.err2);
+                        $("#validation1").show();
+                        $("#validation2").show();
+                    } else {
+                        sweetAlert("Oops...", "Make sure your package is `main`!", "error");
+                    }                    
                 }                
             } else {
                 $(".submitCode").hide();
