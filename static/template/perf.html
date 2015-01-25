@@ -1,0 +1,68 @@
+{{ if .loggedIn }}
+    <script>
+            $(".header .login").hide();
+            $(".header .logout").show();
+    </script>
+{{else}}
+    <script>
+            $(".header .login").show();
+            $(".header .logout").hide();
+    </script>
+{{ end }}
+<div id="headline" class="title">A place for all your Gopher kombating needs</div>
+<p class="message">It's very simple - code (or paste, whatever) two #Golang snippets 
+    and compare their performance head to head.</p>
+<div class="editor-wrapper">
+    <div id="editor1" class="editor"></div>    
+    <div id="editor2" class="editor"></div>
+    <div class="vs">vs</div>
+    <div id="validation1" class="validation ace_editor" style="display:none;"></div>
+    <div id="validation2" class="validation ace_editor" style="display:none;"></div>
+    <div class="submitCode">Fight!</div>
+    <div class="results" style="display:none;">
+        <div class="results-title">The results are in!</div>
+        <div class="v-sep"></div>
+        <img class="i-goph" src="../img/gopher.png" />
+        <div class="another-one">
+            <a>Do another one!</a>
+        </div>
+        <div class="result" id="res1">
+            <div class="box-row thead">
+                <div class="box">Gopher 1</div>
+            </div>
+            <div class="box-row">
+                <div class="box">Lines of code:</div>
+                <div class="box lines">&nbsp;</div>
+            </div>
+            <div class="box-row">
+                <div class="box">Execution time:</div>
+                <div class="box time"></div>
+            </div>
+            <div class="box-row">
+                <div class="box">Memory consumption:</div>
+                <div class="box memory"></div>
+            </div>
+        </div>
+
+        <div class="result" id="res2">
+            <div class="box-row thead">
+                <div class="box">Gopher 2</div>
+            </div>
+            <div class="box-row">
+                <div class="box">Lines of code:</div>
+                <div class="box lines">&nbsp;</div>
+            </div>
+            <div class="box-row">
+                <div class="box">Execution time:</div>
+                <div class="box time"></div>
+            </div>
+            <div class="box-row">
+                <div class="box">Memory consumption:</div>
+                <div class="box memory"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="application/javascript" src="js/perf.js" defer></script>

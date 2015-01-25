@@ -59,13 +59,15 @@ body a {
 #content {
   padding: 10px;
 }
-#content #headline {
-  font-weight: bold;
-  padding: 20px 0 10px 0;
-  font-size: 20px;
+#content .title {
+  font-size: 32px;
+  text-align: center;
+}
+#content .message {
+  text-align: center;
 }
 #content .editor-wrapper {
-  margin: 10px 0;
+  margin: 20px 0;
   height: 500px;
   position: relative;
 }
@@ -130,4 +132,80 @@ body a {
 }
 #content .editor-wrapper .validation#validation2 {
   right: 0;
+}
+#content .editor-wrapper .results {
+  position: absolute;
+  margin: auto;
+  width: 700px;
+  height: 400px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  border: 1px solid #464444;
+  background: #272727;
+  z-index: 110;
+}
+#content .editor-wrapper .results .results-title {
+  margin: 10px;
+  font-size: 32px;
+  text-align: center;
+}
+#content .editor-wrapper .results .another-one {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  cursor: pointer;
+}
+#content .editor-wrapper .results .v-sep {
+  position: absolute;
+  margin: auto;
+  width: 1px;
+  height: 270px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #464444;
+}
+#content .editor-wrapper .results .i-goph {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+#content .editor-wrapper .results .result {
+  width: 250px;
+  display: table;
+  border-collapse: collapse;
+}
+#content .editor-wrapper .results .result#res1 {
+  float: left;
+  margin-left: 50px;
+}
+#content .editor-wrapper .results .result#res2 {
+  float: right;
+  margin-right: 50px;
+}
+#content .editor-wrapper .results .result .box-row {
+  display: table-row;
+}
+#content .editor-wrapper .results .result .box-row .win {
+  background-color: green;
+}
+#content .editor-wrapper .results .result .box-row .lose {
+  background-color: red;
+}
+#content .editor-wrapper .results .result .box-row.thead {
+  font-weight: bold;
+}
+#content .editor-wrapper .results .result .box {
+  display: table-cell;
+  text-align: left;
+  vertical-align: top;
 }

@@ -73,13 +73,15 @@ body {
 
 #content {
     padding: 10px;
-    #headline {
-        font-weight: bold;
-        padding: 20px 0 10px 0;
-        font-size: @f-heading;
+    .title {
+        font-size: 32px;
+        text-align: center;
+    }
+    .message {
+        text-align: center;
     }
     .editor-wrapper {
-        margin: 10px 0;
+        margin: 20px 0;
         height : 500px;
         position: relative;
         .editor {
@@ -142,6 +144,82 @@ body {
             }
             &#validation2 {
                 right: 0;
+            }
+        }
+        .results {
+            position: absolute;
+            margin: auto;
+            width: 700px;
+            height: 400px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            -webkit-border-radius: 5;
+            -moz-border-radius: 5;
+            border-radius: 5px;
+            border: 1px solid @c-lgray;
+            background: @c-black;
+            z-index: 110;
+            .results-title {
+                margin: 10px;
+                font-size: 32px;
+                text-align: center;
+            }
+            .another-one {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin: 10px;
+                cursor: pointer;
+            }
+            .v-sep {
+                position: absolute;
+                margin: auto;
+                width: 1px;
+                height: 270px;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: @c-lgray;
+            }
+            .i-goph {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+            }
+            .result {
+                width: 250px;
+                &#res1{
+                    float: left;
+                    margin-left: 50px;
+                }
+                &#res2{
+                    float: right;
+                    margin-right: 50px;
+                }
+                display: table;
+                border-collapse: collapse;
+                .box-row {
+                   display: table-row;
+                    .win {
+                        background-color: green;
+                    }
+                    .lose {
+                        background-color: red;
+                    }
+                    &.thead {
+                        font-weight: bold;
+                    }
+                }
+                .box {
+                   display: table-cell;
+                   text-align: left;
+                   vertical-align: top;
+                }
             }
         }
         
