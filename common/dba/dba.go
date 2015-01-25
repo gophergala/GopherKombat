@@ -2,14 +2,11 @@ package dba
 
 import (
 	"gopkg.in/mgo.v2"
-)
-
-const (
-	MONOLAB_URL = "mongodb://gophermongo:kombatgopher123@ds037451.mongolab.com:37451/gopherkombat" //os.Env!!!
+	"os"
 )
 
 func Execute(col string, f func(*mgo.Collection)) {
-	session, err := mgo.Dial(MONOLAB_URL)
+	session, err := mgo.Dial(os.Getenv("MONGOLAB_URL"))
 	if err != nil {
 		panic(err)
 	}

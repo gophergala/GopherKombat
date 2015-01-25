@@ -1,25 +1,24 @@
-package login
+package app
 
 import (
 	"encoding/json"
 	"github.com/gophergala/GopherKombat/common/user"
-	"github.com/gophergala/GopherKombat/web/app"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
 const (
 	ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token"
 	CLIENT_ID        = "fe6528d512e0697b7883"
-	CLIENT_SECRET    = "cec5d9ce37eb963149e5ef9cdb8f445f0d891227" //add to os.Env
 	GITHUB_API       = "https://api.github.com/user"
 )
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	session := app.InitSession(r)
+	session := InitSession(r)
 	session.Values["user"] = nil
 	err := session.Save(r, w)
 	if err != nil {
@@ -29,7 +28,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
-	session := app.InitSession(r)
+	session := InitSession(r)
 	params := r.URL.Query()
 	code := params["code"][0]
 
@@ -37,7 +36,7 @@ func LoginCallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	form := url.Values{}
 	form.Add("client_id", CLIENT_ID)
-	form.Add("client_secret", CLIENT_SECRET)
+	form.Add("client_secret", os.Getenv("GITHUB_SECRET"))
 	form.Add("code", code)
 
 	req, err := http.NewRequest("POST", ACCESS_TOKEN_URL, strings.NewReader(form.Encode()))
