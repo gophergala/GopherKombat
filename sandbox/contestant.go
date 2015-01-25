@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gophergala/GopherKombat/common/game"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -51,66 +51,50 @@ func NewContestantProcess(contestant *Contestant) (*ContestantProcess, error) {
 		return nil, fmt.Errorf("error building go source: %v", err)
 	}
 
+	return cp, nil
+}
+
+func (cp *ContestantProcess) Run() (time.Duration, error) {
 	// Prepare AI to receive requests
 	// Not using NaCl for now because it is printing some bytes to the
 	// stdout
 	//cp.cmd = exec.Command("sel_ldr_x86_64", "-l", "/dev/null", "-S", "-e", exe)
+	exe := filepath.Join(cp.dir, "a.out")
 	cp.cmd = exec.Command(exe)
-	cp.stdin, err = cp.cmd.StdinPipe()
+
+	start := time.Now()
+	err := cp.cmd.Start()
 	if err != nil {
-		return nil, fmt.Errorf("error opening stdin: %v", err)
-	}
-	cp.stdout, err = cp.cmd.StdoutPipe()
-	if err != nil {
-		return nil, fmt.Errorf("error opening stderr: %v", err)
-	}
-	cp.encoder = json.NewEncoder(cp.stdin)
-	cp.decoder = json.NewDecoder(cp.stdout)
-	err = cp.cmd.Start()
-	if err != nil {
-		return nil, fmt.Errorf("error starting AI: %v", err)
+		return 0, fmt.Errorf("error starting AI: %v", err)
 	}
 
-	return cp, nil
-}
-
-func (cp *ContestantProcess) Turn(state *game.State) (*game.Action, error) {
-	respc := make(chan *game.Action, 1)
+	resc := make(chan time.Duration, 1)
 	errc := make(chan error, 1)
 
 	go func() {
-		// Send state to AI
-		err := cp.encoder.Encode(state)
+		err := cp.cmd.Wait()
 		if err != nil {
 			errc <- err
 			return
 		}
-
-		//buff := make([]byte, 12)
-		//cp.stdout.Read(buff)
-
-		// Read action from AI
-		var action game.Action
-		err = cp.decoder.Decode(&action)
-		if err != nil {
-			errc <- err
-			return
-		}
-		respc <- &action
+		diff := time.Now().Sub(start)
+		resc <- diff
 		return
 	}()
 
 	t := time.NewTimer(time.Second)
+
 	select {
 	case err := <-errc:
 		t.Stop()
-		return nil, err
-	case resp := <-respc:
+		return 0, err
+	case res := <-resc:
 		t.Stop()
-		return resp, nil
+		log.Printf("executed piece in %v", res)
+		return res, nil
 	case <-t.C:
 		cp.cmd.Process.Kill()
-		return nil, fmt.Errorf("timeout")
+		return 0, fmt.Errorf("timeout")
 	}
 }
 
